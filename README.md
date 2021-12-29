@@ -8,9 +8,8 @@ meaning you can encrypt or shelter information using this encoder.
 This library was inspired from [Ordinary](https://github.com/Kreusada/Ordinary),
 a library I also wrote.
 
-Ordinary gets it's name from the French of "gibberish", as when encoded, the
+Charbia gets it's name from the French of "gibberish", as when encoded, the
 text quite literally looks like a cat sat on your keyboard.
-ijkbabkbbfkeekdckhdkdckbajkbabkjhkbbakdckbagkbbhkbbfkbbgkdckbaikbafkbahkbabkdckbbgkbaekbafkbbfkeg
 
 ### Methods
 
