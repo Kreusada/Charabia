@@ -8,19 +8,40 @@ import functools
 import string
 import random
 import re
-from typing import Dict, List, Optional
+import types
+from typing import Dict, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from types import FunctionType
 
 SEPS = None
 ENCODING_INDEXES = None
 DECODING_INDEXES = None
 __version__ = "2.0.0"
 
+__all__ = (
+    "CharabiaError"
+    "__version__",
+    "configured",
+    "create_tower",
+    "decode",
+    "demolish_tower",
+    "encode",
+    "ensure_setsep",
+    "generate_decoding_indexes",
+    "generate_encoding_indexes",
+    "getseps",
+    "setseps",
+    "splitseps",
+    "tempseps",
+)
+
 
 class CharabiaError(Exception):
     """Charabia related errors."""
 
 
-def _parse_separators(separators):
+def _parse_separators(separators) -> None:
     if not isinstance(separators, str):
         raise TypeError("separators must be provided as str")
     if 1 > len(separators) > 42:
@@ -69,7 +90,7 @@ def generate_decoding_indexes(seps) -> Dict[str, str]:
     )
 
 
-def ensure_setsep(f) -> None:
+def ensure_setsep(f) -> FunctionType:
     @functools.wraps(f)
     def inner(*args, **kwargs):
         if not configured():
@@ -192,7 +213,7 @@ def decode(text: str) -> str:
         items = ["".join(map(DECODING_INDEXES.__getitem__, s)) for s in splitseps(text)]
     except KeyError as e:
         m = "Unexpected character in token: %s" % e
-        if str(e)[1::2] == " ":
+        if e.args[0] == " ":
             m = "Spaces shouldn't appear inside decode(). Perhaps you meant to use encode()?"
         raise_(m)
     else:
@@ -202,7 +223,7 @@ def decode(text: str) -> str:
             except (OverflowError, ValueError):
                 error = True
             else:
-                if i not in range(0x110000):
+                if i not in range(1114112):
                     error = True
             finally:
                 if error:
